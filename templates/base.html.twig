@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body>
+    <header>
+        <ul>
+            <li><a href="{{ path("allMovies") }}">Movies</a></li>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <li><a href="{{ path("dashboard") }}">My account</a></li>
+                <li><a href="{{ path("logout") }}">Log out</a></li>
+            {% else %}
+                <li><a href="{{ path("app_register") }}">Register</a></li>
+                <li><a href="{{ path("app_login") }}">Log in</a></li>
+            {% endif %}
+        </ul>
+    </header>
+        {% block body %}{% endblock %}
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>
+
+
+

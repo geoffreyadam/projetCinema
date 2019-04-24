@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ReservationController!{% endblock %}
+
+{% block body %}
+    {{ screening.movie }}
+    {{ screening.room }}
+    {{ screening.date|date('Y-m-d') }}
+{% endblock %}
