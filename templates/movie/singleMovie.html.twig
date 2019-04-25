@@ -8,17 +8,18 @@
         .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
     </style>
 
-    <div class="example-wrapper">
+    <div class="allmovies">
             <li>
-                <p>{{ movie.title }}</p>
-                <p>{{ movie.description }}</p>
-                <p>{{ movie.runtime }} minutes</p>
+                <h3>{{ movie.title }}</h3>
+                <p class="description">{{ movie.description }}</p>
+                <p class="time">{{ movie.runtime }} minutes</p>
+                {% for screening in screenings %}
+                    {{ screening.date|date('Y-m-d') }}
+                    {{ screening.room }}
+                    <a href="{{ path('reservationConfirm', {"id": screening.id}) }}">Book this screening</a>
+                {% endfor %}
             </li>
-        {% for screening in screenings %}
-            {{ screening.date|date('Y-m-d') }}
-            {{ screening.room }}
-            <a href="{{ path('reservation', {"id": screening.id}) }}">Book this screening</a>
-        {% endfor %}
-        <a href="{{ path('allMovies') }}">See all movies</a>
+
     </div>
+    <a href="{{ path('allMovies') }}">See all movies</a>
 {% endblock %}

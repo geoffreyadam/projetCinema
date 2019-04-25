@@ -23,15 +23,15 @@ class Reservation
     private $User;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Screening", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $Seance;
-
-    /**
      * @ORM\Column(type="integer")
      */
     private $Capacity;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Screening", inversedBy="reservations")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $screening;
 
     public function getId(): ?int
     {
@@ -50,17 +50,7 @@ class Reservation
         return $this;
     }
 
-    public function getSeance(): ?Screening
-    {
-        return $this->Seance;
-    }
 
-    public function setSeance(Screening $Seance): self
-    {
-        $this->Seance = $Seance;
-
-        return $this;
-    }
 
     public function getCapacity(): ?int
     {
@@ -70,6 +60,18 @@ class Reservation
     public function setCapacity(int $Capacity): self
     {
         $this->Capacity = $Capacity;
+
+        return $this;
+    }
+
+    public function getScreening(): ?Screening
+    {
+        return $this->screening;
+    }
+
+    public function setScreening(?Screening $screening): self
+    {
+        $this->screening = $screening;
 
         return $this;
     }

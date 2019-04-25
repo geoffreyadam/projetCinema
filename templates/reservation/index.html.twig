@@ -3,7 +3,14 @@
 {% block title %}Hello ReservationController!{% endblock %}
 
 {% block body %}
-    {{ screening.movie }}
-    {{ screening.room }}
-    {{ screening.date|date('Y-m-d') }}
+    <h2>Réservation</h2>
+    <p>Vous allez réserver une séance pour :</p>
+    <p>{{ screening.movie }}</p>
+    <p>le :</p>
+    <p>{{ screening.date|date('Y-m-d') }}</p>
+    <p>en salle :</p>
+    <p>{{ screening.room }}</p>
+
+    <a href="{{ path("singleMovie", {"id": movie.id}) }}">Annuler</a>
+    <a href="{{ path("reservation", {"id": screening.id}) }}">Confirmer</a>
 {% endblock %}

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -27,7 +29,7 @@ class Screening
     private $date;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Room", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\Room")
      */
     private $room;
 
@@ -42,6 +44,16 @@ class Screening
      * @ORM\JoinColumn(nullable=false)
      */
     private $movie;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Reservation", mappedBy="screening")
+     */
+    private $reservations;
+
+    public function __construct()
+    {
+        $this->reservations = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -84,7 +96,7 @@ class Screening
         return $this;
     }
     public function __toString(){
-        return $this->getRoom();
+        return $this->getRoom() . ' - ' . $this->getDate()->format('Y-m-d') . ' - ' . $this->getMovie();
     }
 
     public function getMovie(): ?Movie
@@ -95,6 +107,37 @@ class Screening
     public function setMovie(?Movie $movie): self
     {
         $this->movie = $movie;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Reservation[]
+     */
+    public function getReservations(): Collection
+    {
+        return $this->reservations;
+    }
+
+    public function addReservation(Reservation $reservation): self
+    {
+        if (!$this->reservations->contains($reservation)) {
+            $this->reservations[] = $reservation;
+            $reservation->setScreening($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReservation(Reservation $reservation): self
+    {
+        if ($this->reservations->contains($reservation)) {
+            $this->reservations->removeElement($reservation);
+            // set the owning side to null (unless already changed)
+            if ($reservation->getScreening() === $this) {
+                $reservation->setScreening(null);
+            }
+        }
 
         return $this;
     }
